@@ -97,25 +97,27 @@ class xbmcnfo(Agent.Movies):
               try: 
                 tempgenre=nfoXML.xpath('./genre')[0].text
                 genres=tempgenre.split("/")
-      		Log(genres)
+      	    	Log(genres)
                 if genres != "":
                   metadata.genres.clear()
                   Log("cleared genres")
                   for r in genres:
-     		    Log(r)
-                    
-                    metadata.genres.add(r)
-                    Log("Added genre: " + r)
-              except: p
+     		      Log(r)
+                  metadata.genres.add(r)
+                  Log(metadata.genres)
+              except: pass
 
               #actors
  	      metadata.roles.clear()
  	      for actor in nfoXML.findall('./actor'):
 			role = metadata.roles.new()
-			role.role = actor.xpath("role")[0].text
-			role.actor = actor.xpath("name")[0].text
-			role.photo = actor.xpath("thumb")[0].text
-              m = re.search('(tt[0-9]+)', metadata.guid)
+			try: role.role = actor.xpath("role")[0].text
+            except: pass
+			try: role.actor = actor.xpath("name")[0].text
+			except: pass
+            try: role.photo = actor.xpath("thumb")[0].text
+            except: pass
+                m = re.search('(tt[0-9]+)', metadata.guid)
  	      if m:
                 id = m.groups(1)[0]
         
