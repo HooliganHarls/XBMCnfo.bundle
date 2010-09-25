@@ -112,14 +112,14 @@ class xbmcnfo(Agent.Movies):
  	      for actor in nfoXML.findall('./actor'):
 			role = metadata.roles.new()
 			try: role.role = actor.xpath("role")[0].text
-            except: pass
+                        except: pass
 			try: role.actor = actor.xpath("name")[0].text
 			except: pass
             try: role.photo = actor.xpath("thumb")[0].text
             except: pass
-                m = re.search('(tt[0-9]+)', metadata.guid)
- 	      if m:
-                id = m.groups(1)[0]
+            m = re.search('(tt[0-9]+)', metadata.guid)
+ 	    if m:
+              id = m.groups(1)[0]
         
 
 
