@@ -56,7 +56,16 @@ class xbmcnfo(Agent.Movies):
           nfoName=f.split(".")[0]
 	  fname1=media.items[0].parts[0].file.split("/")[-1]
           fname2=fname1.split(".")[0]
-	  if fname2==nfoName:
+          if fname2.lower() == "the":
+            fname2=fname2+"." + fname1.split(".")[1]    
+
+          if len(fname2) < len(nfoName):
+            nfoName2=nfoName[len(fname2)]
+          else:
+            nfoName2=nfoName
+          Log(len(fname2))
+          Log(nfoName2)
+          if fname2==nfoName2:
 	    nfoFile = os.path.join(path, f)
 	  
             nfoText = Core.storage.load(nfoFile)
@@ -149,7 +158,9 @@ class xbmcnfo(Agent.Movies):
               for r in metadata.genres:
 	        Log("genres: " + r)
               Log("++++++++++++++++++++++++")
-  
+ 
+              return id, metadata
+ 
 
                         
     #ratings = {}
@@ -158,8 +169,6 @@ class xbmcnfo(Agent.Movies):
      # if ratingText != "N/A" and len(ratingText) > 0:
       #  ratings[rating.xpath('span')[0].text] = float(ratingText.replace('%',''))/10
     #metadata.rating = ratings['T-Meter Critics']
-
-    return id, metadata
 
  
  
