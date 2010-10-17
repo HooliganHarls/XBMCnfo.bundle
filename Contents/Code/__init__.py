@@ -48,7 +48,14 @@ class xbmcnfo(Agent.Movies):
                   #title
                   try: media.id = nfoXML.xpath('./id')[0].text
                   except: pass
+<<<<<<< HEAD
+                  #title
+                  try: media.year = nfoXML.xpath('./year')[0].text
+                  except: pass
+   
+=======
     #mediatree=MediaTree[media.id]
+>>>>>>> e5a5e37cb95fd2b91a757284cc694e01ea9da987
     Log(path1)
     
     Log("++++++++++++++++++++++++")
@@ -63,8 +70,13 @@ class xbmcnfo(Agent.Movies):
     Log(media.items)
     Log("++++++++++++++++++++++++")
     
+<<<<<<< HEAD
+    name=media.name
+    results.Append(MetadataSearchResult(id=media.id,name=name,year=media.year,lang=lang,score=100))
+=======
     name="Nfo_" + media.name
     results.Append(MetadataSearchResult(id=media.id,name=name,year=3000,lang=lang,score=100))
+>>>>>>> e5a5e37cb95fd2b91a757284cc694e01ea9da987
     for result in results:
 		Log('scraped results: ' + result.name + ' | year = ' + str(result.year) + ' | id = ' + result.id + '| score = ' + str(result.score))
    
@@ -125,9 +137,25 @@ class xbmcnfo(Agent.Movies):
                   try: metadata.content_rating = nfoXML.xpath('./mpaa')[0].text
                   except: pass
                   #director
+<<<<<<< HEAD
+                  try: 
+                    tempdirector=nfoXML.xpath('./director')[0].text
+                    directors=tempdirector.split("/")
+                    Log(directors)
+                  except: pass
+                  if directors != "":
+                        metadata.directors.clear()
+                        Log("cleared directors")
+                        for r in directors:
+                            Log(r)
+                            metadata.directors.add(r)
+
+                  
+=======
                   metadata.directors.clear()
                   try: metadata.directors.add(nfoXML.xpath("director")[0].text)
                   except: pass
+>>>>>>> e5a5e37cb95fd2b91a757284cc694e01ea9da987
                   #studio
                   try: metadata.studio = nfoXML.findall("studio")[0].text
                   except: pass
@@ -143,6 +171,72 @@ class xbmcnfo(Agent.Movies):
                   except: pass
                   Log(genres)
                   if genres != "":
+<<<<<<< HEAD
+                        metadata.genres.clear()
+                        Log("cleared genres")
+                        for r in genres:
+                            Log(r)
+                            metadata.genres.add(r)
+                            Log(metadata.genres)
+                  #actors
+                  metadata.roles.clear()
+                  for actor in nfoXML.findall('./actor'):
+                        role = metadata.roles.new()
+                        try: role.role = actor.xpath("role")[0].text
+                        except: pass
+                        try: role.actor = actor.xpath("name")[0].text
+                        except: pass
+
+
+                  #nfo thumbs
+                  thumbs=[]
+
+                  try: thumbs=nfoXML.xpath("./thumb")
+                  except: pass
+  
+                  #checks to see if the poster already exists
+                  #if not it adds it.
+                  name = metadata.title
+                  for thumb in thumbs:
+                    Log(thumb.text)
+                  @parallelize
+                  def loopThroughPosters(thumbs=thumbs):
+                    try:
+                      i = 0
+                      for thumb in thumbs:
+                          i += 1
+                          @task
+                          def grabPoster(pUrl=thumb.text, i=i):
+                            posterUrl = pUrl
+                            Log("Adding: " + pUrl)
+                            thumbpic = HTTP.Request(pUrl)
+                            metadata.posters[posterUrl] = Proxy.Preview(thumbpic, sort_order = i)
+                    except:
+                      pass
+
+                                    
+                  Log("++++++++++++++++++++++++")
+                  Log("Movie nfo Information")
+                  Log("++++++++++++++++++++++++")
+                  Log("Title: " + str(metadata.title))
+                  Log("id: " + str(metadata.guid))
+                  Log("Summary: " + str(metadata.summary))
+                  Log("Year: " + str(metadata.year))
+                  Log("IMDB rating: " + str(metadata.rating)) 
+                  Log("Content Rating: " + str(metadata.content_rating))
+                  Log("Director " + str(metadata.directors))
+                  Log("Studio: " + str(metadata.studio))
+                  Log("Duration: " + str(metadata.duration))
+                  # Log("Actors")
+                  # for r in metadata.roles:
+                  #   Log("Actor: " + r.actor + " | Role: " + r.role)
+                  Log("Genres")
+                  for r in metadata.genres:
+                    Log("genres: " + r)
+                  Log(metadata.id)
+                  Log("++++++++++++++++++++++++")
+                  return id, metadata
+=======
                       metadata.genres.clear()
                       Log("cleared genres")
                       for r in genres:
@@ -190,15 +284,11 @@ class xbmcnfo(Agent.Movies):
                       Log("++++++++++++++++++++++++")
     
                       return id, metadata
+>>>>>>> e5a5e37cb95fd2b91a757284cc694e01ea9da987
  
 
                         
-    #ratings = {}
-    #for rating in HTML.ElementFromURL(RT_BASE_URL + metadata.id).xpath('//div[@class="movie_info_area"]//li/a'):
-    #  ratingText = rating.get('title')
-     # if ratingText != "N/A" and len(ratingText) > 0:
-      #  ratings[rating.xpath('span')[0].text] = float(ratingText.replace('%',''))/10
-    #metadata.rating = ratings['T-Meter Critics']
+   
 
  
  
